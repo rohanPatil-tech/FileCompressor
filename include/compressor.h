@@ -3,6 +3,6 @@
 
 #include <vector>
 
-void compressChunk(const std::vector<char>& chunk, std::vector<char>& compressedData);
+std::vector<char> compressData(const std::vector<char>& data);
 
-#endif // COMPRESSOR_H
+#endif

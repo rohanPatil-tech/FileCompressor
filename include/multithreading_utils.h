@@ -6,4 +6,4 @@
 
 void startCompressionThreads(const std::string& filename, size_t chunkSize);
 
-#endif // MULTITHREADING_UTILS_H
+#endif

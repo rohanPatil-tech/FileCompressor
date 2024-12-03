@@ -3,56 +3,33 @@
 #include <fstream>
 #include <vector>
 
-// void splitFile(const std::string& filename, size_t chunkSize) {
-//     std::ifstream inputFile(filename, std::ios::binary);
-//     std::cout << "Attempting to open file: " << filename << std::endl;
-
-//     if (!inputFile) {
-//         std::cerr << "Error opening file: " << filename << std::endl;
-//         return;
-//     }
-
-//     size_t chunkCount = 0;
-//     std::vector<char> buffer(chunkSize);
-
-//     while (inputFile) {
-//         inputFile.read(buffer.data(), chunkSize);
-//         std::streamsize bytesRead = inputFile.gcount();
-
-//         if (bytesRead > 0) {
-//             std::ofstream outFile(filename + "_chunk" + std::to_string(chunkCount), std::ios::binary);
-//             outFile.write(buffer.data(), bytesRead);
-//             outFile.close();
-//             chunkCount++;
-//         }
-//     }
-
-//     inputFile.close();
-//     std::cout << "File split into " << chunkCount << " chunks." << std::endl;
-// }
-
-void splitFile(const std::string& filename, size_t chunkSize, const std::string& outputFolder) {
+std::vector<std::string> splitFile(const std::string& filename, size_t chunkSize, const std::string& outputFolder) {
     std::ifstream inputFile(filename, std::ios::binary);
+    std::vector<std::string> chunkPaths;
+
     if (!inputFile) {
         std::cerr << "Error opening file: " << filename << std::endl;
-        return;
+        return chunkPaths;
     }
 
-    char* buffer = new char[chunkSize];
-    size_t partNumber = 0;
+    size_t chunkCount = 0;
+    std::vector<char> buffer(chunkSize);
 
-    while (inputFile) {
-        inputFile.read(buffer, chunkSize);
+    while (inputFile) 
+    {
+        inputFile.read(buffer.data(), chunkSize);
         std::streamsize bytesRead = inputFile.gcount();
 
         if (bytesRead > 0) {
-            std::string chunkFileName = outputFolder + "/chunk_" + std::to_string(partNumber++) + ".bin";
-            std::ofstream outputFile(chunkFileName, std::ios::binary);
-            outputFile.write(buffer, bytesRead);
-            outputFile.close();
+            std::string chunkPath = outputFolder + "/chunk" + std::to_string(chunkCount);
+            std::ofstream outFile(chunkPath, std::ios::binary);
+            outFile.write(buffer.data(), bytesRead);
+            outFile.close();
+            
+            chunkPaths.push_back(chunkPath);
+            chunkCount++;
         }
     }
-
-    delete[] buffer;
     inputFile.close();
+    return chunkPaths;
 }

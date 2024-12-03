@@ -9,8 +9,10 @@
                 "-std=c++17",
 				"-I", "include",
 				"src/main.cpp",
-                "src/file_utils.cpp",  
-                "-o", "build/main" 
+                "src/file_utils.cpp", 
+                "src/compressor.cpp", 
+                "-o", "build/main",
+                "-lz" 
             ],
             "group": {
                 "kind": "build",

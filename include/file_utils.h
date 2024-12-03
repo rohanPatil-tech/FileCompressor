@@ -3,9 +3,8 @@
 
 #include <string>
 
-void splitFile(const std::string& filename, size_t chunkSize);
-void splitFile(const std::string& filename, size_t chunkSize, const std::string& outputFolder);
+std::vector<std::string> splitFile(const std::string& filename, size_t chunkSize, const std::string& outputFolder);
 
 void mergeChunks(const std::string& outputFile);
 
-#endif // FILE_UTILS_H
+#endif
